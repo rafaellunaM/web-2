@@ -1,36 +1,29 @@
-var http = require('http'),
-    config = require('./config'),
-    fileHandler = require('./filehandler'),
-    parse = require('url').parse,
-    types = config.types,
-    rootFolder = config.rootFolder,
-    defaultIndex = config.defaultIndex;
+const express = require('express');
+const bodyParser = require('body-parser');
+const { Pool } = require('pg');
+const path = require('path');
 
-function onRequest(req, res) {
-    var filename = parse(req.url).pathname,
-        fullPath,
-        extension;
+const app = express();
 
-    if (filename === '/') {
-        filename = defaultIndex;
+const pool = new Pool({
+    user: 'teste',
+    host: 'localhost',
+    database: 'usuarios',
+    password: 'teste',
+    port: 5432,
+});
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'static')));
+
+app.post('/query', async (req, res) => {
+    const { sqlQuery } = req.body;
+    try {
+        const result = await pool.query(sqlQuery);
+        res.json(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao executar consulta no PostgreSQL' });
     }
+});
 
-    fullPath = rootFolder + filename;
-    extension = filename.substr(filename.lastIndexOf('.') + 1);
-
-    fileHandler(fullPath, function(data) {
-        res.writeHead(200, {
-            'Content-Type': types[extension] || 'text/plain',
-            'Content-Length': data.length
-        });
-        res.end(data);
-
-    }, function(err) {
-        res.writeHead(404);
-        res.end();
-    });
-}
-
-var server = http.createServer(onRequest);
-
-module.exports = server;
+module.exports = app;

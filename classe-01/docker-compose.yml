@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+
+  node:
+   image: examplenode2
+   restart: always
+   ports:
+     - "3000:3000"
+   volumes:
+     - .:/app
+   networks:
+     app_net:
+       ipv4_address: 172.16.238.10
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234Dados
+      POSTGRES_DB: biblioteca0306
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./setup_sql:/docker-entrypoint-initdb.d
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.11
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24

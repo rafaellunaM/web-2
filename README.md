@@ -1,16 +1,17 @@
-# web-2
+![](https://i.imgur.com/xG74tOh.png)
 
-# webserver-nodejs
+# Exercícios - Conexão Api Node.js com PostgreSQL
 
-exemplo de uso do nodejs
+## Exercícios de classe 🏫
 
-startando:
+1. Implementação de Api para sistemas de Biblioteca
 
- 1 - dentro do diretório webserver-nodejs
- 2 - sudo docker build -t examplenode .
- 3 - sudo docker run -d -p 3000:3000 examplenode
- 4 - no navegador coloque localhost:3000
+---
 
-falta:
- 1 - página de exemplo
- 2 - criar eventos de exemplo
+Preencha a checklist para finalizar os exercícios:
+
+-   [ ] Executar `git clone` do seu fork no terminal para clonar o repositório, ou clonar de outra maneira
+-   [ ] Realizar a atividade e fazer o `git push` para seu fork
+-   [ ] Copiar a url do seu fork e enviar na plataforma
+
+###### tags: `módulo 3` `exercício de classe` `banco de dados` `nodeJS` `SQL` `postgres`
